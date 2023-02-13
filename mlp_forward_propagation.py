@@ -14,3 +14,32 @@ class MLP:
         for i in range(len(layers) - 1):
             # for the rows the current layer and for the columns the subsequent layer
             w = np.random.rand(layers[i], layers[i + 1])
+            self.weights.append(w)
+
+    def forward_propagate(self, inputs):
+        activations = inputs
+
+        for w in self.weights:
+            # calculate net inputs
+            net_inputs = np.dot(activations, w)
+            # calculate the activations
+            activations = self._sigmoid(net_inputs)
+
+        return activations
+
+    def _sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+
+if __name__ == "__main__":
+    # Create an MLP
+    mlp = MLP()
+    # create some inputs
+    inputs = np.random.rand(mlp.num_inputs)
+
+    # perform forward prop
+    outputs = mlp.forward_propagate(inputs)
+
+    # print the results
+    print("The network input is {}".format(inputs))
+    print("The network output is {}".format(outputs))
